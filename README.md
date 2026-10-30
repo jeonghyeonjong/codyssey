@@ -6,23 +6,25 @@
 - Container Runtime: Docker Desktop (WSL 2 Backend)
 - Version Control: Git for Windows
 
-    $ docker --version
-    Docker version 27.3.1, build ce12230
+```bash
+$ docker --version
+Docker version 27.3.1, build ce12230
 
-    $ docker info
-    Client:
-     Context:    default
-     Debug Mode: false
-    Server:
-     Containers: 1
-      Running: 1
-      Paused: 0
-      Stopped: 0
-     Images: 4
-     Server Version: 27.3.1
-     Operating System: Docker Desktop
-     OSType: linux
-     Architecture: x86_64
+$ docker info
+Client:
+ Context:    default
+ Debug Mode: false
+Server:
+ Containers: 1
+  Running: 1
+  Paused: 0
+  Stopped: 0
+ Images: 4
+ Server Version: 27.3.1
+ Operating System: Docker Desktop
+ OSType: linux
+ Architecture: x86_64
+```
 
 ---
 
@@ -64,10 +66,13 @@
 - 바인드 마운트(-v $(pwd)/app:...): 호스트 디렉토리를 컨테이너에 직접 연결하여 실시간 코드 수정이 반영되므로 로컬 개발 시 유용하지만 호스트 환경에 종속됩니다.
 - 도커 볼륨(-v my-data:...): Docker 엔진이 관리하는 전용 스토리지에 격리 저장되어 컨테이너 생명주기와 완전히 독립되므로 데이터 안정성과 OS 간 이식성이 뛰어납니다.
 - 백업 및 복구 권장 절차: 볼륨 데이터를 tar 아카이브로 묶어 호스트로 내보내거나 복원합니다.
-    # 백업
-    docker run --rm -v my-data:/data -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /data
-    # 복구
-    docker run --rm -v my-data:/data -v $(pwd):/backup ubuntu tar xvf /backup/backup.tar -C /
+
+```bash
+# 백업
+docker run --rm -v my-data:/data -v $(pwd):/backup ubuntu tar cvf /backup/backup.tar /data
+# 복구
+docker run --rm -v my-data:/data -v $(pwd):/backup ubuntu tar xvf /backup/backup.tar -C /
+```
 
 ---
 
@@ -149,14 +154,17 @@
 ### 4) 호스트 포트 접속 검증 (URL 및 타임스탬프)
 - 접속 URL: http://localhost:8080
 - 접속 확인 일시: 2026-10-30 19:35:00 KST
-    $ curl -I http://localhost:8080
-    HTTP/1.1 200 OK
-    Server: nginx/1.27.0
-    Content-Type: text/html
-    Content-Length: 32
 
-    $ curl http://localhost:8080
-    <h1>Codyssey Web Server</h1>
+```bash
+$ curl -I http://localhost:8080
+HTTP/1.1 200 OK
+Server: nginx/1.27.0
+Content-Type: text/html
+Content-Length: 32
+
+$ curl http://localhost:8080
+<h1>Codyssey Web Server</h1>
+```
 
 ---
 
@@ -194,17 +202,22 @@
 ## 8. 포트 충돌 진단 및 단계별 해결 가이드
 - 문제 현상: 호스트 포트(8080)를 다른 프로세스가 이미 점유하여 Bind for 0.0.0.0:8080 failed: port is already allocated 오류가 발생하는 경우.
 - 진단 및 해결 단계:
-    # 1단계: 포트 점유 프로세스 PID 확인 (Windows)
-    $ netstat -ano | findstr :8080
-    TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING       12480
 
-    # 2단계: 점유 중인 프로세스 강제 종료
-    $ taskkill /PID 12480 /F
-    SUCCESS: The process with PID 12480 has been terminated.
+```bash
+# 1단계: 포트 점유 프로세스 PID 확인 (Windows)
+$ netstat -ano | findstr :8080
+TCP    0.0.0.0:8080           0.0.0.0:0              LISTENING       12480
 
-    # 3단계: 포트 정상 해제 확인 후 웹 컨테이너 재시작
-    $ docker start my-web-server
-    my-web-server
+# 2단계: 점유 중인 프로세스 강제 종료
+$ taskkill /PID 12480 /F
+SUCCESS: The process with PID 12480 has been terminated.
+
+# 3단계: 포트 정상 해제 확인 후 웹 컨테이너 재시작
+$ docker start my-web-server
+my-web-server
+```
+
+- macOS / Linux 대체: `lsof -nP -iTCP:8080 -sTCP:LISTEN` 으로 PID 를 확인하고, `kill <PID>` 로 종료한 뒤 `docker start my-web-server` 를 실행합니다.
 
 ---
 
@@ -223,8 +236,8 @@
 
     # 2. 원격 저장소(remote) 설정 확인
     $ git remote -v
-    origin  [https://github.com/jeonghyeonjong/codyssey.git](https://github.com/jeonghyeonjong/codyssey.git) (fetch)
-    origin  [https://github.com/jeonghyeonjong/codyssey.git](https://github.com/jeonghyeonjong/codyssey.git) (push)
+    origin  https://github.com/jeonghyeonjong/codyssey.git (fetch)
+    origin  https://github.com/jeonghyeonjong/codyssey.git (push)
 
     # 3. 최근 커밋 및 푸시 이력 스냅샷
     $ git log -1 --stat
