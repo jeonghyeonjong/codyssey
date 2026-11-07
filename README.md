@@ -470,10 +470,10 @@ Windows 11 노트북에 **터미널 조작 → Docker로 웹 서버 이미지 �
       - Token scopes: 'gist', 'read:org', 'repo', 'workflow'
 
     $ git log --oneline
-    (HEAD -> main, origin/main) docs: rewrite README with real execution logs and localhost screenshots
-    feat: show request url and access time on index page
-    feat: add compose.yaml to reproduce port, bind mount, and volume setup
-    chore: add .gitignore for volume backups and practice files
+    ea8a231 docs: rewrite README with real execution logs and localhost screenshots
+    4784b06 feat: show request url and access time on index page
+    a03e78f feat: add compose.yaml to reproduce port, bind mount, and volume setup
+    34ebbb1 chore: add .gitignore for volume backups and practice files
     4a40ee2 docs: finalize all 18 mission criteria
     2be6fd5 feat: complete dev workstation setup mission
     bfd1dfd Initial commit
