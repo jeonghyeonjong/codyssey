@@ -1,0 +1,6 @@
+# 볼륨 백업 산출물·임시 실습 파일은 저장소에 올리지 않는다
+*.tar
+*.tar.gz
+practice/
+perm_test.txt
+app/live.txt
