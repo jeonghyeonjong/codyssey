@@ -1,0 +1,16 @@
+# 포트·볼륨·마운트 설정을 파일 하나로 고정해, 어느 PC에서든 `docker compose up -d` 한 줄로 같은 환경을 재현한다.
+services:
+  web:
+    build: .
+    image: my-web:1.0
+    container_name: my-web-server
+    ports:
+      - "8080:80"                          # 호스트 8080 → 컨테이너 80
+    volumes:
+      - ./app:/usr/share/nginx/html        # 바인드 마운트: 상대 경로라서 저장소를 어디에 clone 해도 동작
+      - my-data:/data                      # 네임드 볼륨: 컨테이너를 지워도 데이터 유지
+    restart: unless-stopped
+
+volumes:
+  my-data:
+    name: my-data
