@@ -1,1 +1,28 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Codyssey Web Server</title>
+  <style>
+    body { font-family: "Malgun Gothic", sans-serif; background: #1e1e2e; color: #cdd6f4; margin: 0; padding: 48px; }
+    h1 { color: #a6e3a1; margin-top: 0; }
+    table { border-collapse: collapse; margin-top: 24px; }
+    td { border: 1px solid #45475a; padding: 10px 16px; }
+    td:first-child { color: #89b4fa; font-weight: bold; }
+  </style>
+</head>
+<body>
 <h1>Codyssey Web Server</h1>
+<p>Docker 커스텀 이미지(my-web:1.0, nginx:alpine 기반)에서 서빙 중인 정적 페이지입니다.</p>
+<table>
+  <tr><td>접속 URL</td><td id="url">-</td></tr>
+  <tr><td>접속 시각</td><td id="time">-</td></tr>
+  <tr><td>포트 매핑</td><td>호스트 8080 → 컨테이너 80</td></tr>
+  <tr><td>콘텐츠 경로</td><td>호스트 ./app → 컨테이너 /usr/share/nginx/html (바인드 마운트)</td></tr>
+</table>
+<script>
+  document.getElementById("url").textContent = location.href;
+  document.getElementById("time").textContent = new Date().toLocaleString("ko-KR");
+</script>
+</body>
+</html>
